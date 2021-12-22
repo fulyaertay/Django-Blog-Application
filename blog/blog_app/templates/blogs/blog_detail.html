@@ -1,0 +1,111 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<!-- 
+    Blog's details are displayed according to blog_id
+
+-->
+
+        
+    
+
+
+
+<section>
+  
+   
+
+
+    <div class="container">
+        <nav>
+            <ol class="breadcrumb bg-white mr-0">
+              <li class="breadcrumb-item"><a href="{% url 'blog_list' %}">Blog</a></li>
+              <li class="breadcrumb-item active" >{{blog.description}}</li>
+            </ol>
+          </nav>
+        <h1 class="h1-description ">{{blog.description}}</h1>
+        <p class="p-date-author">{{blog.blog_author}} . {{blog.created_date|date:"d F Y"}}</p>
+        <img class="img-fluid" src="{{blog.cover_photo.url}}" alt="{{blogs.coverPhoto}}">
+     
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-xs-6">
+                <p class="blog-content">{{blog.blog_content | safe }}</p>
+            </div>
+          
+
+        </div>
+        <br>   <br>
+       
+        {% if author_blogs %}
+            <h3 class="mx-3">Yazarın Diğer Yazıları</h3>
+           
+                <div class="container pt-1 my-5">
+                    <div class="row mr-5 " > 
+                         {%for blogs in author_blogs %} 
+                            <div class="col-md-5  my-2 " >
+                                <div class="card border-0 " style="width:400px" >
+                                    <a href="{% url 'blog_detail' blogs.pk %}">
+                                        <img class="card-img-top img-fluid" src=" {{blogs.cover_photo.url}} " alt="{{blogs.cover_photo}}" >
+                                    <div class="card-body">
+                                        <h2 class="list-card-title">{{blogs.description}}</h2></a>
+                                        <p class="list-card-text">{{blogs.blog_author}}</p>
+                
+                                    
+                                    </div>
+                                
+                        
+                                </div>
+                    
+                            </div> 
+                            {%endfor%}
+                
+                    </div>
+            
+        {%endif%}
+    
+        
+    </div>
+    <h3>Yorum Yap:</h3>
+    <form class="form-horizontal" action="" method="POST" >
+        {% csrf_token %}
+          {{form.as_p}}
+        
+          <input type="submit" value="Gönder">
+      
+    </form><br><br>
+    <h3>Blog Yorumları</h3>
+    <div class="container-fluid shadow">
+        
+            {% for comment in comments%}
+   
+                        <div class="container">
+                            <p class="list-card-title ">{{comment.content}}</p>
+                            <p class="list-card-text ">{{comment.name}}
+                                <hr>
+                            </p>
+    
+                        
+                        </div>
+                    
+            
+               
+        
+            
+                {%endfor%}
+    
+        </div>
+  
+     
+  
+
+  
+</section>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<h1>Blog</h1>
+
+<!-- 
+    Blog lists in the cards
+
+-->
+
+
+
+<div class="container pt-1 my-5 ">
+    {% if user.is_authenticated %}
+        <h3>Hoşgeldiniz {{user}}</h3>
+    {%endif%}
+    
+    <div class="row justify-content-between">
+         
+        <div class="col-7 ml-0 ">
+            <div class="card border-0" style="width:800px" >
+                <div class="card-body">
+                    <a href="{% url 'blog_detail' first_blog.pk %}">
+                        <h2 class="list-card-title">{{first_blog.description}}</h2></a>
+                    <p class="list-card-text">{{first_blog.blog_author.get_full_name}}</p>
+                </div>
+                <a href="{% url 'blog_detail' first_blog.pk %}">
+                    <img class="card-img-top-first-blog  " src=" {{first_blog.cover_photo.url}} " alt="{{first_blog.cover_photo}}" ></a>
+                       
+            </div>
+
+          
+        </div>
+       
+
+        <div class="col-3 margin-top-populer p-4 background-populer h-100 d-none d-sm-none d-lg-block" >
+            <h3 class="p-2">Popüler</h3>
+            <div class="row ">
+                {% for blog in populer_blogs %}
+                <div class=" populer-blogs p-2 d-flex align-items-center flex-wrap ">
+                    <a href="{% url 'blog_detail' blog.pk %}"  >
+                        <h5>
+                             <span class="h4 font-weight-bold p-2">{{forloop.counter}}</span>
+                             {{blog.description}}</h5></a>
+                    
+                </div>
+                {% endfor %}
+            </div>
+           
+        </div>
+    
+    </div>
+    <div class="row mr-0" >
+        {% for blog in blogs %}
+           
+            <div class="col-md-5 my-2 " >
+                <div class="card border-0" style="width:400px" >
+                    <a href="{% url 'blog_detail' blog.pk %}">
+                        <img class="card-img-top" src=" {{blog.cover_photo.url}} " alt="{{blog.cover_photo}}" >
+                    <div class="card-body">
+                        <h2 class="list-card-title ">{{blog.description | truncatechars:55}}</h2></a>
+                        <p class="list-card-text">{{blog.blog_author.get_full_name}}</p>
+
+
+                    </div>
+                    {% if request.user.is_authenticated %}
+                    <div class="row ">
+                        <div class="col-3 ">
+                            <a href="{% url 'update' blog.pk %}"  ><button type="button" class="btn btn-success border">Düzenle</button></a>
+                        </div>
+                        <div class="col ">
+                            <a href="{% url 'delete' blog.pk %}"  ><button type="button" class="btn btn-danger border ">Sil</button></a>
+                        </div>
+                        </div> {%endif%}
+                    </div>
+                   
+        
+            </div>
+          
+        {% endfor %}
+        
+      <br>
+    
+    </div>
+  
+</div>
+
+  <!-- 
+    Pagination using Django-Paginator
+
+    -->
+
+    
+    <div class="row" >
+       
+        <div class=" pagination col-sm-10 col-md-10">
+            <span class=" d-flex justify-content-center"  >
+                {% if blogs.has_previous %}
+                    <a href="?page=1">&laquo; İlk Sayfa</a>
+                    <a href="?page={{ blogs.previous_page_number }}"> Önceki Sayfa </a>
+                {% endif %}
+        
+                
+        
+                {% if blogs.has_next %}
+                    <a href="?page={{ blogs.next_page_number }}"> Sonraki Sayfa  </a>
+                    <a href="?page={{ blogs.paginator.num_pages }}">Son Sayfa &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-10 col-md-10 ">
+            <span class="d-flex justify-content-center">
+                Sayfa {{ blogs.number }} / {{ blogs.paginator.num_pages }}
+            </span>
+        </div>
+    </div>
+
+    <br>
+
+
+{% endblock %}

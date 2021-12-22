@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="container  ">
+<nav>
+    <ol class="breadcrumb bg-white">
+      <li class="breadcrumb-item"><a href="{% url 'blog_list' %}">Blog</a></li>
+      <li class="breadcrumb-item active" >Blog Arama Sonucu:</li>
+    </ol>
+  </nav>
+</div>
+
+<h3 class="mx-4">Blog Arama Sonucu:</h3>
+
+    
+    
+    {%if search_results%}
+      
+        <div class="container pt-1 my-5">
+                <div class="row " >
+                    {% for blog in search_results %}
+                    <div class="col-md-5  my-2 ">
+                        <div class="card border-0" style="width:400px" >
+                            <a href="{% url 'blog_detail' blog.pk %}">
+                            <img class="card-img-top img-fluid" src=" {{blog.cover_photo.url}} " alt="{{blog.cover_photo}}" >
+                            <div class="card-body">
+                                <h2 class="list-card-title">{{blog.description}}</h2></a>
+                                <p class="list-card-text">{{blog.blog_author}}</p>
+                            </div>
+                        </div>
+                    </div>   
+                    {% endfor %}
+                </div>
+           
+             
+     
+        
+      {%endif%}
+
+      {%if not search_results%}
+      <h3 class="mx-4">Blog bulunamadı!</h3>
+
+      {%endif%}
+           
+
+
+      
+    <br>
+
+{% endblock %}

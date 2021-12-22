@@ -1,0 +1,78 @@
+
+
+/* Modify navbar  */
+
+.navbar .navbar-nav .nav-item  a {
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    color: #0F0F0F;
+    font-size:15px;
+  
+}
+.navbar .navbar-nav .nav-item  a:hover {
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f8f9fa;
+    font-size:15px;
+   
+}
+
+.list-card-title{
+    font-family : 'Barlow' , sans-serif ;
+    font-size : 17px ;
+    color:rgb(0, 0, 0);
+    font-weight: bold;
+  
+}
+
+.list-card-text{
+
+    font-family : 'Barlow' , sans-serif ;
+    font-size : 16px ;
+    color:#7A7878;
+    font-weight: bold;
+  
+}
+
+
+.margin-top-populer{
+    margin-top: 600px;
+}
+
+/* Modify content for blog_detail.html */
+section{
+
+    padding:89px 0px;
+}
+
+.h1-description{
+
+    font-family : 'Barlow' , sans-serif ;
+    font-size : 40px ;
+    color:rgb(0, 0, 0);
+    font-weight: bold;
+
+}
+.p-date-author{
+    color:#7A7878;
+    font-family : 'Barlow' , sans-serif ;
+    font-size : 16px ;
+    font-weight: bold;
+    margin:0px 0px 35px;
+
+}
+
+/*not work*/
+.blog-content{
+
+    color:#141111;
+    font-family : 'Barlow' , sans-serif ;
+    font-size : 20px ;
+    margin: 5px 0px 16px;
+}
+
+a:hover{
+    text-decoration: unset;
+}
+
+    

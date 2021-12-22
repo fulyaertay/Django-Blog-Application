@@ -1,0 +1,17 @@
+
+{% extends 'layout.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="container">
+    <form method="post">{% csrf_token %}
+        <p>{{object}} adlı blog içeriğini silmek istediğinizden emin misiniz?
+        <input type="submit" class="btn btn-danger"value="Sil">
+    </form>
+
+    
+</div>
+
+{% endblock %}

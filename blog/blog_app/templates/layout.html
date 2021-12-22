@@ -1,0 +1,320 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Application</title>
+
+    <!-- 
+    Defining static and js files
+
+    -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Barlow|Montserrat|Roboto" rel="stylesheet">
+
+ 
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+
+        .dropdown-width{
+            width: 170px;
+        }
+       .btn-light{
+           background-color: #fff;
+       }
+        /* Modify footer */
+        .footer {
+            position:relative;
+            background-color:#f4f2f2;
+            left: 0;
+            bottom: 0;
+            min-width: 200px;
+            padding-top:70px;
+            padding-bottom:40px;
+           
+            
+        }
+        .overflow{
+            overflow-x:auto
+        }
+        .font-copyright{
+            color: #141111;
+            font-size:16px;
+            font-family:'Open Sans', sans-serif;;
+            font-weight: bold;
+            
+        }
+
+        /* Modify header col */
+        h3{
+            color:#141111;
+            font-size:26px;
+            font-family:'Open Sans', sans-serif;
+            font-weight: bold;
+            margin:0px 0px 17px;
+        }
+        h5{
+            color:#141111;
+            font-size:18px;
+            font-family:'Open Sans', sans-serif;
+            margin:0px 0px 17px;
+        }
+        /* Modify col items  */
+        .table-item{
+            color:#7A7878;
+            font-size:14px;
+            font-family:'Open Sans', sans-serif;;
+            font-weight: bold;
+        }
+        /* Modify image on cards for blog_list.html */
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-img-top-first-blog {
+            width: 800px;
+            height: 400px;
+            object-fit: cover;
+            margin-bottom: 100px;
+        }
+        .margin-top-populer{
+            margin-top: 120px;
+            
+        }
+        .populer-blogs{
+            min-width:100px;
+            margin-top: 0px;
+        }
+        .background-populer{
+            background-color: #f4f2f2;
+        }
+        .pagination {
+            display: inline-block;
+            }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+            }
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+            }
+                
+    </style>
+</head>
+<body>
+    
+            <nav class="navbar navbar-expand-sm  bg-white  fixed-top shadow-sm   ">
+                <div class="container ">
+                    <div class="row my-2">
+                        <div class="col">
+                            <!-- Toggler Button -->
+                            <button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                           
+                               
+                            <div class="collapse navbar-collapse " id="collapsibleNavbar">
+                            
+                                <ul class="navbar-nav   ">
+                                    <li class="nav-item">
+                                        <a class="navbar-brand" href="https://univerlist.com/tr/"><img src="{%static 'header_logo/univerlist_logo.svg'%}"></img></a></li>
+                                    {%if user.is_authenticated%}
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="{% url 'create'%}">Blog Yarat</a>
+                                    </li> {%endif%}
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="https://univerlist.com/tr/universiteler/">Üniversiteler</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="https://univerlist.com/tr/karsilastir/">Karşılaştır</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="https://univerlist.com/tr/tercih/">Tercih</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="https://univerlist.com/tr/tercihbotu/">Tercih Botu</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="https://univerlist.com/tr/bolumler/">Bölümler</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="https://univerlist.com/tr/blog/">Blog</a>
+                                    </li>
+                                </ul>
+                            
+                            
+                                <ul class="navbar-nav  navbar-right">
+                                    <form class="navbar-form navbar-right" method="get" action="{% url 'search' %}">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control  border-0" id="search" onkeyup="search_blog()" placeholder="Blog Ara" name="search">
+                                            <div class="input-group-btn">
+                                            <button class="btn btn-default my-2 my-sm-0" type="submit">
+                                                <i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                        </form>
+
+                                        {% if not request.user.is_authenticated %}
+                                    <li class="nav-item ">
+                                        <a class="nav-link  " href="{% url 'register' %}">Kayıt Ol</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="{% url 'login' %}">Giriş Yap</a>
+                                    </li>
+
+                                    {%else%}
+                                    <li class="nav-item">
+                                        <a class="nav-link  " href="{% url 'logout' %}">Çıkış Yap</a>
+                                    </li>
+
+
+                                    {%endif%}
+
+
+                                
+                        </ul>
+
+                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </nav>
+            
+        <main>
+
+            <!-- 
+            defining common section for blog_list.html and blog_detail.html webpages.
+
+            -->
+        <div class="container pt-5 my-5">
+
+            {% block content %}
+
+
+            {% endblock %}
+            </div>
+
+    
+        </main>
+
+
+    <!-- 
+    defining footer
+
+    -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row justify-content-between"> 
+                <div class="col-md-2">
+                    <h3>Univerlist</h3>
+                    <ul class="list-unstyled ">
+                        <li class="mb-2 pb-2 table-item">Lisans</li>
+                        <li class="mb-2 pb-2 table-item">Yüksek Lisans</li>
+                        <li class="mb-2 pb-2 table-item">Online Eğitim</li>
+                        <li class="mb-2 pb-2 table-item">Disiplinler</li>
+                        <li class="mb-2 pb-2 table-item">Ülkeler</li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h3>Özellikler</h3>
+                    <ul class="list-unstyled ">
+                        <li class="mb-2 pb-2 table-item">Karşılaştır</li>
+                        <li class="mb-2 pb-2 table-item">Tercih Botu</li>
+                        <li class="mb-2 pb-2 table-item">Sıralamalar</li>
+                        <li class="mb-2 pb-2 table-item">Haberler</li>
+                        <li class="mb-2 pb-2 table-item">İlanlar</li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h3>Şirket</h3>
+                    <ul class="list-unstyled ">
+                        <li class="mb-2 pb-2 table-item">Hakkında</li>
+                        <li class="mb-2 pb-2 table-item">Kariyer</li>
+                        <li class="mb-2 pb-2 table-item">uL Puanı</li>
+                        <li class="mb-2 pb-2 table-item">İletişim</li>
+                        <li class="mb-2 pb-2 table-item">Üniversiteler İçin</li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h3>Sosyal</h3>
+                    <ul class="list-unstyled ">
+                        <li class="mb-2 pb-2 table-item">Facebook</li>
+                        <li class="mb-2 pb-2 table-item">Twitter</li>
+                        <li class="mb-2 pb-2 table-item">LinkedIn</li>
+                        <li class="mb-2 pb-2 table-item">Youtube</li>
+                        <li class="mb-2 pb-2 table-item">Instagram</li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h3 class="pb-2">Dil</h3>
+                    <ul class="list-unstyled ">
+                        <li class=" mb-2 table-item"> 
+                            <div class="dropdown ">
+                                <button type="button" class="btn btn-light dropdown-toggle pr-5 dropdown-width " data-toggle="dropdown">
+                                Türkçe
+                                </button>
+                                <div class="dropdown-menu p-3">
+                                    <a class="dropdown-item " href="#">Türkçe</a>
+                                    <a class="dropdown-item " href="#">İngilizce</a>
+                            </div>
+                        </li><br>
+                        <li class="mb-2 table-item">
+                            <h3 class="pb-2">Para Birimi</h3>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-light dropdown-toggle pr-5 dropdown-width" data-toggle="dropdown">
+                                TRY
+                                </button>
+                                <div class="dropdown-menu p-3">
+                                    <a class="dropdown-item" href="#">TRY</a>
+                                    <a class="dropdown-item" href="#">USD</a>
+                                    <a class="dropdown-item" href="#">EUR</a>
+                                    <a class="dropdown-item" href="#">GBP</a>
+                                
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>              
+                
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col">
+                    <span class=" font-copyright mr-right" >©Univerlist</span>
+                </div>
+                <div class="col-auto text-right">
+                    <span class="table-item mr-2">Kullanıcı Lisans Sözleşmesi</span>
+                    <span class="table-item">Gizlilik Beyanı</span>
+                </div>
+            </div>
+            
+        </div>
+    </footer>
+ 
+
+    <script>
+
+function search_blog() {
+  var x = document.getElementById("search");
+  x.value = x.value;
+}
+
+    </script>
+    </body>
+</html>
